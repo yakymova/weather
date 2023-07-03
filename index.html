@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather forecast</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="input-panel">
+            <form class="input-panel__form" name="searchForm">
+                <input type="text" class="input-panel__text" name="searchInput" placeholder="Enter city" required>
+                <button class="input-panel__btn" type="submit"></button>
+            </form>
+        </div>
+
+        <section class="forecast">
+            <div class="forecast__start-block"></div>
+
+            <div class="forecast__controls">
+                <button class="forecast__btn" id="celsius">&#176C</button>
+                |
+                <button class="forecast__btn" id="fahrenheit">&#176F</button>
+            </div>
+
+            <div class="forecast__one-day">
+                <div class="main">
+                    <div class="main__basic-info">
+                        <div class="icon" id="icon"></div>
+                        <div class="location" id="location"></div>
+                        <div class="date" id="date"></div>
+                    </div>
+                    <div class="main__other-info">
+                        <div>
+                            <div class="temp" id="temp"></div>
+                            <div class="description" id="description"></div>
+                            <div class="feels-like" id="feels-like"></div>
+                        </div>
+                        <div>
+                            <div class="clouds another-color" id="clouds"></div>
+                            <div class="humidity another-color" id="humidity"></div>
+                            <div class="wind another-color" id="wind"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hourly"></div>
+            </div>
+        </section>
+
+
+        <template id="start-item">
+            <div class="start-item">
+                <div>
+                    <div class="location">{{location.city}}, {{location.country}}</div>
+                    <div class="time">{{time}}</div>
+                </div>
+
+                <div>
+                    <div class="temp">{{temp}}</div>
+                    <div class="description">{{description}}</div>
+                </div>
+                <div class="icon">
+                    <img src={{src}} alt="icon">
+                </div>
+            </div>
+
+        </template>
+
+        <template id="hourly-forecast-item">
+            <div class="hourly-item">
+                <div class="time"><span class="another-color">{{day}}</span>{{time}}</div>
+                <div class="icon">
+                    <img src={{src}} alt="">
+                </div>
+                <div class="description">{{description}}</div>
+                <div class="temp"><span class="another-color">Temp</span>{{temp}}</div>
+                <div class="feels-like"><span class="another-color">Feels like</span>{{feelsLike}}</div>
+                <div class="wind"><span class="another-color">Wind</span>{{wind}} m/s</div>
+            </div>
+        </template>
+
+        <template id="one-day-weather">
+            <div class="icon">
+                <img src={{src}} alt="">
+            </div>
+            <div class="location">{{location.city}}, {{location.country}}</div>
+            <div class="temp">{{temp}}</div>
+            <div class="feels-like">{{feelsLike}}</div>
+            <div class="description">{{description}}</div>
+            <div class="clouds">{{clouds}} %</div>
+            <div class="humidity">{{humidity}} %</div>
+            <div class="wind">{{wind}} m/s</div>
+        </template>
+    </div>
+
+
+    <script src="./js/mustache.min.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+
+</html>

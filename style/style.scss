@@ -1,0 +1,178 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.3px;
+}
+button {
+    cursor: pointer;
+}
+body {
+    // background-color: rgba(67, 132, 132, 0.4);
+    background: linear-gradient(90deg, rgba(67,190,219,0.41789215686274506) 0%, rgba(140,207,204,0.45710784313725494) 10%, rgba(58,232,218,0.21341036414565828) 41%, rgba(236,240,51,0.13217787114845936) 67%, rgba(197,200,42,0.12377450980392157) 88%);
+}
+
+.wrapper {
+    max-width: 900px;
+    padding: 0 15px;
+    margin: 20px auto;
+    border-radius: 10px;
+    background-color: rgba(6, 11, 58, 0.6);
+    color: #fff;
+}
+.input-panel {
+    padding: 20px 0 30px;
+
+    &__form {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        height: 35px;
+    }
+
+    &__text {
+        flex: 0 1 50%;
+        padding-left: 15px;
+        border: none;
+        border-radius: 5px;
+
+        &:focus {
+            outline: 2px solid rgb(6, 11, 58);
+        }
+    }
+
+    &__btn {
+        flex: 0 0 35px;
+        background-color: #ffffff;
+        border: none;
+        border-radius: 50%;
+        background-image: url('./icons/search.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+}
+
+
+.forecast {
+
+    &__controls {       
+        button {
+            border: none;
+            background: transparent;
+        }
+    }
+
+    &__start-block {
+        max-width: 700px;
+        margin: 0 auto;
+
+        .start-item {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-items: center;
+            align-items: center;
+            text-align: center;
+
+            @media(max-width: 599.98px) {
+                font-size: 14px;
+            }
+        }
+    }
+
+    &__one-day {
+        .main {
+            margin-bottom: 10px;
+            width: 60%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 15px;
+
+            @media(max-width: 599.98px) {
+                font-size: 14px;
+            }
+
+            &__other-info {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                position: relative;
+
+                &::before {
+                    content: "";
+                    display: block;
+                    width: 2px;
+                    height: 100%;
+                    background-color: #a6c1d9;
+                    position: absolute;
+                    top: 0;
+                    left: -45%;
+                }
+            }
+
+            div {
+                margin-bottom: 10px;
+            }
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .hourly {
+            .hourly-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 5px;
+
+                @media(max-width: 599.98px) {
+                    font-size: 14px;
+                }
+                @media(max-width: 479.98px) {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    font-size: 12px;
+                }
+    
+                &:nth-child(odd) {
+                    background-color: rgba(255, 255, 255, 0.2);
+                    margin: 0 -15px;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                }
+
+                div {
+                    flex: 0 1 16%;
+                    text-align: center;
+                }
+
+                img {
+                    width: 70%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+}
+
+.location {
+}
+.temp {
+}
+.description {
+}
+.description {
+    text-transform: capitalize;
+}
+.icon{
+}
+
+.another-color {
+    color: #a6c1d9;
+    display: block;
+}

@@ -56,10 +56,12 @@ class WeatherAPI {
 
 class WeatherUI {
     constructor() {
-        this.startBlock = document.querySelector('.forecast__start-block');
+        this.startBlock = document.querySelector('#start-block');
         this.templateStartItem = document.querySelector('#start-item').innerHTML;
 
-        this.weatherOneDayBlock = document.querySelector('.forecast__one-day');
+        this.controlsBlock = document.querySelector('#controls');
+
+        this.weatherOneDayBlock = document.querySelector('#weather-one-day');
         this.locationElement = document.querySelector('#location');
         this.dateElement = document.querySelector('#date');
         this.temperatureElement = document.querySelector('#temp');
@@ -70,24 +72,18 @@ class WeatherUI {
         this.windElement = document.querySelector('#wind');
         this.iconElement = document.querySelector('#icon');
 
-        this.hourlyForecastBlock = document.querySelector('.hourly');
+        this.hourlyForecastBlock = document.querySelector('#hourly');
         this.templateHourlyForecastItem = document.querySelector('#hourly-forecast-item').innerHTML;
+
+        this.shortForecastBlock = document.querySelector('#short-forecast');
+        this.templateShortForecastOneDayItem = document.querySelector('#short-forecast-day-item').innerHTML;
+
+        this.fullForecastWeekBlock = document.querySelector('#forecast-week');
+        this.templateFullForecastOneDayItem = document.querySelector('#full-forecast-day-item').innerHTML;
     }
 
-    displayWeatherFoundCity(weatherData, units) {
-        this.startBlock.hidden = true;
-        const data = weatherData.current;
-        const date = new Date(data.dt * 1000);
-
-        this.locationElement.textContent = weatherData.location.city + ', ' + weatherData.location.country;
-        this.temperatureElement.textContent = `${Math.round(data.temp)}${units === 'imperial' ? '°F' : '°C'}`;
-        this.temperatureFeelsLikeElement.textContent = `Feels like: ${Math.round(data.feels_like)}${units === 'imperial' ? '°F' : '°C'}`;
-        this.descriptionElement.textContent = data.weather[0].description;
-        this.cloudsElement.textContent = 'Clouds: ' + data.clouds + '%';
-        this.humidityElement.textContent = 'Humidity: ' + data.humidity + '%';
-        this.windElement.textContent = 'Wind: ' + data.wind_speed.toFixed(1) + ' m/s';
-        this.iconElement.innerHTML = `<img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">`;
-        this.dateElement.textContent = date.toLocaleString('en-GB', { weekday: 'short', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: weatherData.timezone });
+    displayControls() {
+        this.controlsBlock.hidden = false;
     }
 
     displayWeatherOnPageLoad(weatherData, units) {
@@ -106,6 +102,25 @@ class WeatherUI {
 
         let rendered = Mustache.render(this.templateStartItem, item);
         this.startBlock.innerHTML += rendered;
+    }
+
+    displayDailyWeatherForecast(weatherData, units) {
+        this.startBlock.hidden = true;
+        this.fullForecastWeekBlock.hidden = true;
+        this.weatherOneDayBlock.hidden = false;
+
+        const data = weatherData.current;
+        const date = new Date(data.dt * 1000);
+
+        this.locationElement.textContent = weatherData.location.city + ', ' + weatherData.location.country;
+        this.temperatureElement.textContent = `${Math.round(data.temp)}${units === 'imperial' ? '°F' : '°C'}`;
+        this.temperatureFeelsLikeElement.textContent = `Feels like: ${Math.round(data.feels_like)}${units === 'imperial' ? '°F' : '°C'}`;
+        this.descriptionElement.textContent = data.weather[0].description;
+        this.cloudsElement.textContent = 'Clouds: ' + data.clouds + '%';
+        this.humidityElement.textContent = 'Humidity: ' + data.humidity + '%';
+        this.windElement.textContent = 'Wind: ' + data.wind_speed.toFixed(1) + ' m/s';
+        this.iconElement.innerHTML = `<img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">`;
+        this.dateElement.textContent = date.toLocaleString('en-GB', { weekday: 'short', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: weatherData.timezone });
     }
 
     displayHourlyForecast(weatherData, units) {
@@ -128,6 +143,55 @@ class WeatherUI {
             this.hourlyForecastBlock.innerHTML += rendered;
         }
     }
+
+    displayShortForecastForComingDays(weatherData, timezone, units, days = 3) {
+        this.shortForecastBlock.innerHTML = '';
+        for (let i = 1; i <= days; i++) {
+            const data = weatherData[i];
+            let date = new Date(data.dt * 1000);
+            let item = {
+                day: date.toLocaleDateString('en-GB', { weekday: 'short', timeZone: timezone }),
+                src: 'http://openweathermap.org/img/wn/' + data.weather[0].icon + '@2x.png',
+                temp: `${Math.round(data.temp.day)}${units === 'imperial' ? '°F' : '°C'}`,
+                description: data.weather[0].main,
+            }
+
+            let rendered = Mustache.render(this.templateShortForecastOneDayItem, item);
+            this.shortForecastBlock.innerHTML += rendered;
+        }
+    }
+
+    displayFullForecastForWeek(weatherData, timezone, location, units) {
+        this.weatherOneDayBlock.hidden = true;
+        this.fullForecastWeekBlock.hidden = false;
+
+        this.fullForecastWeekBlock.innerHTML = `<p class="location">${location.city}, ${location.country}</p>`;
+        for (let i = 1; i <= 7; i++) {
+            const data = weatherData[i];
+            let date = new Date(data.dt * 1000);
+            let item = {
+                day: date.toLocaleDateString('en-GB', { weekday: 'short', timeZone: timezone }),
+                src: 'http://openweathermap.org/img/wn/' + data.weather[0].icon + '@2x.png',
+                description: data.weather[0].description,
+                tempDay: `${Math.round(data.temp.day)}${units === 'imperial' ? '°F' : '°C'}`,
+                feelsLikeDay: `${Math.round(data.feels_like.day)}${units === 'imperial' ? '°F' : '°C'}`,
+                tempNight: `${Math.round(data.temp.night)}${units === 'imperial' ? '°F' : '°C'}`,
+                feelsLikeNight: `${Math.round(data.feels_like.night)}${units === 'imperial' ? '°F' : '°C'}`,
+                summary: data.summary,
+                clouds: data.clouds,
+                humidity: data.humidity,
+                wind: data.wind_speed.toFixed(1),
+            }
+
+            let rendered = Mustache.render(this.templateFullForecastOneDayItem, item);
+            this.fullForecastWeekBlock.innerHTML += rendered;
+        }
+    }
+
+    showSelectedWeather() {
+        this.weatherOneDayBlock.hidden = !this.weatherOneDayBlock.hidden;
+        this.fullForecastWeekBlock.hidden = !this.fullForecastWeekBlock.hidden;
+    }
 }
 
 
@@ -135,6 +199,7 @@ class WeatherApp {
     apiKey = 'a19f4bad0c78d317d1c566ef8ffecad2';
     weatherForDay;
     weatherForecast;
+    isThisFirstForecastShow;
 
     constructor() {
         this.weatherAPI = new WeatherAPI(this.apiKey);
@@ -151,12 +216,26 @@ class WeatherApp {
             }
         } else {
             this.weatherForDay = await this.weatherAPI.getWeatherData(city, units);
-            this.weatherUI.displayWeatherFoundCity(this.weatherForDay, units);
+            this.weatherUI.displayDailyWeatherForecast(this.weatherForDay, units);
             console.log(this.weatherForDay);
 
             this.weatherForecast = await this.weatherAPI.getWeatherForecast(units);
             this.weatherUI.displayHourlyForecast(this.weatherForecast, units)
             console.log(this.weatherForecast);
+
+            this.weatherUI.displayShortForecastForComingDays(this.weatherForecast.daily, this.weatherForecast.timezone, units, 3);
+
+            this.weatherUI.displayControls();
+            this.isThisFirstForecastShow = true;
+        }
+    }
+
+    changeWeatherForecastDisplayMode() {
+        if (this.isThisFirstForecastShow) {
+            this.weatherUI.displayFullForecastForWeek(this.weatherForecast.daily, this.weatherForecast.timezone, this.weatherForDay.location);
+            this.isThisFirstForecastShow = false;
+        } else {
+            this.weatherUI.showSelectedWeather();
         }
     }
 }
@@ -176,3 +255,14 @@ form.addEventListener('submit', (e) => {
 
 let celsiusSwitchBtn = document.querySelector('#celsius');
 let fahrenheitSwitchBtn = document.querySelector('#fahrenheit');
+
+let modeSwitchBtn = document.querySelector('#mode-display-weather');
+modeSwitchBtn.addEventListener('click', () => {
+    app.changeWeatherForecastDisplayMode();
+
+    if (modeSwitchBtn.textContent === 'Show for the week') {
+        modeSwitchBtn.textContent = 'Show for today';
+    } else {
+        modeSwitchBtn.textContent = 'Show for the week';
+    }
+})

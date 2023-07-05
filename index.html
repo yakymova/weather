@@ -18,22 +18,26 @@
         </div>
 
         <section class="forecast">
-            <div class="forecast__start-block"></div>
+            <div class="forecast__start-block" id="start-block"></div>
 
-            <div class="forecast__controls">
-                <button class="forecast__btn" id="celsius">&#176C</button>
-                |
-                <button class="forecast__btn" id="fahrenheit">&#176F</button>
+            <div class="forecast__controls" id="controls" hidden>
+                <div class="units">
+                    <button id="celsius" class="active">&#176C</button>
+                    |
+                    <button id="fahrenheit">&#176F</button>
+                </div>
+                <button id="mode-display-weather">Show for the week</button>
+
             </div>
 
-            <div class="forecast__one-day">
-                <div class="main">
-                    <div class="main__basic-info">
+            <div class="forecast__one-day" id="weather-one-day" hidden>
+                <div class="one-day-weather">
+                    <div class="one-day-weather__basic-info">
                         <div class="icon" id="icon"></div>
                         <div class="location" id="location"></div>
                         <div class="date" id="date"></div>
                     </div>
-                    <div class="main__other-info">
+                    <div class="one-day-weather__other-info">
                         <div>
                             <div class="temp" id="temp"></div>
                             <div class="description" id="description"></div>
@@ -45,9 +49,13 @@
                             <div class="wind another-color" id="wind"></div>
                         </div>
                     </div>
+                    <div class="one-day-weather__short-forecast" id="short-forecast"></div>
                 </div>
-                <div class="hourly"></div>
+
+                <div class="hourly-weather" id="hourly"></div>
             </div>
+
+            <div class="forecast__week" id="forecast-week"></div>
         </section>
 
 
@@ -82,17 +90,40 @@
             </div>
         </template>
 
-        <template id="one-day-weather">
-            <div class="icon">
-                <img src={{src}} alt="">
+        <template id="short-forecast-day-item">
+            <div class="forecast-item">
+                <div class="date">{{day}}</div>
+                <div class="icon">
+                    <img src={{src}} alt="">
+                </div>
+                <div class="temp">{{temp}}</div>
+                <div class="description another-color">{{description}}</div>
             </div>
-            <div class="location">{{location.city}}, {{location.country}}</div>
-            <div class="temp">{{temp}}</div>
-            <div class="feels-like">{{feelsLike}}</div>
-            <div class="description">{{description}}</div>
-            <div class="clouds">{{clouds}} %</div>
-            <div class="humidity">{{humidity}} %</div>
-            <div class="wind">{{wind}} m/s</div>
+        </template>
+
+
+
+        <template id="full-forecast-day-item">
+            <div class="forecast-item">
+                <div class="main">
+                    <div class="date">{{day}}</div>
+                    <div class="icon">
+                        <img src={{src}} alt="">
+                    </div>
+                    <div class="temp">{{tempDay}}</div>
+                    <div class="summary">{{summary}}</div>
+                    <!-- <div class="description">{{description}}</div> -->
+                </div>
+                <div class="other">
+                    <!-- <div class="temp"><span class="another-color">At day </span>{{tempDay}}</div> -->
+                    <div class="feels-like"><span class="another-color">Feels like </span>{{feelsLikeDay}}</div>
+                    <div class="temp"><span class="another-color">At night </span>{{tempNight}}</div>
+                    <div class="feels-like"><span class="another-color">Feels like </span>{{feelsLikeNight}}</div>
+                    <div class="clouds"><span class="another-color">Clouds: </span>{{clouds}} %</div>
+                    <div class="humidity"><span class="another-color">Humidity: </span>{{humidity}} %</div>
+                    <div class="wind"><span class="another-color">Wind: </span>{{wind}} m/s</div>
+                </div>
+            </div>
         </template>
     </div>
 

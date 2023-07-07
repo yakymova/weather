@@ -17,7 +17,6 @@ body {
     // background-color: rgba(67, 132, 132, 0.4);
     background: linear-gradient(90deg, rgba(67,190,219,0.41789215686274506) 0%, rgba(140,207,204,0.45710784313725494) 10%, rgba(58,232,218,0.21341036414565828) 41%, rgba(236,240,51,0.13217787114845936) 67%, rgba(197,200,42,0.12377450980392157) 88%);
 }
-
 .wrapper {
     max-width: 900px;
     padding: 0 15px;
@@ -35,7 +34,6 @@ body {
         gap: 30px;
         height: 35px;
     }
-
     &__text {
         flex: 0 1 50%;
         padding-left: 15px;
@@ -46,7 +44,6 @@ body {
             outline: 2px solid rgb(6, 11, 58);
         }
     }
-
     &__btn {
         flex: 0 0 35px;
         background-color: #ffffff;
@@ -58,22 +55,32 @@ body {
         background-size: contain;
     }
 }
-
+.error {
+    color: #a6c1d9;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    text-shadow: 1px 1px 1px #000000;
+}
+.forecast.not-active {
+    pointer-events: none;
+    opacity: 0.3;
+}
 .forecast__controls {       
     font-size: 16px;
-    display: flex;
     margin-bottom: 20px;
-    gap: 40px;
 
     .units {
+        display: inline-block;
+        margin-right: 40px;
         color: #a6c1d9;
 
         button.active {
             color: #ffffff;
+            cursor: auto;
         }
 
     }
-
     & > button {
         border-bottom: 1px solid #a6c1d9;
         color: #a6c1d9;
@@ -95,7 +102,6 @@ body {
         justify-items: center;
         align-items: center;
         text-align: center;
-
         @media(max-width: 599.98px) {
             font-size: 14px;
         }
@@ -108,47 +114,51 @@ body {
     justify-content: space-around;
     align-items: center;
     gap: 15px;
-
     @media(max-width: 599.98px) {
         font-size: 14px;
         flex-wrap: wrap;
     }
 
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
+    &__other-info {
+        @media(max-width: 319.98px) {
+            font-size: 12px;
+        }
     }
-
     &__other-info {
         display: flex;
-        flex-direction: column;
         gap: 10px;
-        position: relative;
 
-        &::before {
-            content: "";
-            display: block;
-            width: 2px;
-            height: 100%;
-            background-color: #a6c1d9;
-            position: absolute;
-            top: 0;
-            left: -20%;
+        @media(min-width: 240px) {
+            flex-direction: column;
+            position: relative;
 
-            @media(min-width: 320px) {
-                left: -45%;
-            }
+            &::before {
+                content: "";
+                display: block;
+                width: 2px;
+                height: 100%;
+                background-color: #a6c1d9;
+                position: absolute;
+                top: 0;
+                left: -20%;
+                @media(min-width: 320px) {
+                    left: -45%;
+                }
         }
 
+        }
         div {
             margin-bottom: 5px;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
     }
 
     &__short-forecast {
         flex: 0 1 30%;
-
         @media(max-width: 599.98px) {
             flex-basis: 100%;
             display: flex;
@@ -166,8 +176,6 @@ body {
             padding: 5px;
             margin-bottom: 10px;
             background-color: rgba(255, 255, 255, 0.2);
-            
-
             @media(max-width: 599.98px) {
                 width: 30%;
                 justify-content: center;
@@ -183,9 +191,13 @@ body {
                 min-height: 55px;
                 padding: 0 10px;
             }
-
             div {
                 flex: 0 1 25%;
+            }
+            .icon img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
             }
         }
     }
@@ -212,12 +224,10 @@ body {
         padding-left: 15px;
         padding-right: 15px;
     }
-
     div {
         flex: 0 1 16%;
         text-align: center;
     }
-
     img {
         width: 70%;
         object-fit: cover;
@@ -233,7 +243,7 @@ body {
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 10px;
 
-        &:nth-child(odd) {
+        &:nth-child(even) {
             background-color: rgba(255, 255, 255, 0.2);
         }
     }
@@ -243,7 +253,6 @@ body {
         align-items: center;
         gap: 10px;
         padding: 10px;
-
         @media (max-width: 599.98px) {
             flex-wrap: wrap;
             font-size: 14px;
@@ -296,3 +305,5 @@ body {
     color: #a6c1d9;
     display: block;
 }
+
+@import 'loader';

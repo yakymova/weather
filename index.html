@@ -17,7 +17,12 @@
             </form>
         </div>
 
-        <section class="forecast">
+        <div class="error" id="error"></div>
+        <div class="loader-container" id="loader" hidden>
+            <span class="loader" id="loader"></span>
+        </div>
+
+        <section class="forecast" id="forecast-main-section">
             <div class="forecast__start-block" id="start-block"></div>
 
             <div class="forecast__controls" id="controls" hidden>
@@ -63,12 +68,12 @@
             <div class="start-item">
                 <div>
                     <div class="location">{{location.city}}, {{location.country}}</div>
-                    <div class="time">{{time}}</div>
+                    <div class="time another-color">{{time}}</div>
                 </div>
 
                 <div>
-                    <div class="temp">{{temp}}</div>
-                    <div class="description">{{description}}</div>
+                    <div class="temp">{{temp}}&#176C</div>
+                    <div class="description another-color">{{description}}</div>
                 </div>
                 <div class="icon">
                     <img src={{src}} alt="icon">
@@ -84,8 +89,9 @@
                     <img src={{src}} alt="">
                 </div>
                 <div class="description">{{description}}</div>
-                <div class="temp"><span class="another-color">Temp</span>{{temp}}</div>
-                <div class="feels-like"><span class="another-color">Feels like</span>{{feelsLike}}</div>
+                <div class="temp"><span class="another-color">Temp</span><span class="degree">{{temp}}</span></div>
+                <div class="feels-like"><span class="another-color">Feels like</span><span
+                        class="degree">{{feelsLike}}</span></div>
                 <div class="wind"><span class="another-color">Wind</span>{{wind}} m/s</div>
             </div>
         </template>
@@ -96,12 +102,10 @@
                 <div class="icon">
                     <img src={{src}} alt="">
                 </div>
-                <div class="temp">{{temp}}</div>
+                <div class="temp"><span class="degree">{{temp}}</span></div>
                 <div class="description another-color">{{description}}</div>
             </div>
         </template>
-
-
 
         <template id="full-forecast-day-item">
             <div class="forecast-item">
@@ -110,15 +114,17 @@
                     <div class="icon">
                         <img src={{src}} alt="">
                     </div>
-                    <div class="temp">{{tempDay}}</div>
+                    <div class="temp"><span class="degree">{{tempDay}}</span></div>
                     <div class="summary">{{summary}}</div>
                     <!-- <div class="description">{{description}}</div> -->
                 </div>
                 <div class="other">
-                    <!-- <div class="temp"><span class="another-color">At day </span>{{tempDay}}</div> -->
-                    <div class="feels-like"><span class="another-color">Feels like </span>{{feelsLikeDay}}</div>
-                    <div class="temp"><span class="another-color">At night </span>{{tempNight}}</div>
-                    <div class="feels-like"><span class="another-color">Feels like </span>{{feelsLikeNight}}</div>
+                    <div class="feels-like"><span class="another-color">Feels like </span><span
+                            class="degree">{{feelsLikeDay}}</span></div>
+                    <div class="temp"><span class="another-color">At night </span><span
+                            class="degree">{{tempNight}}</span></div>
+                    <div class="feels-like"><span class="another-color">Feels like </span><span
+                            class="degree">{{feelsLikeNight}}</span></div>
                     <div class="clouds"><span class="another-color">Clouds: </span>{{clouds}} %</div>
                     <div class="humidity"><span class="another-color">Humidity: </span>{{humidity}} %</div>
                     <div class="wind"><span class="another-color">Wind: </span>{{wind}} m/s</div>
@@ -129,7 +135,10 @@
 
 
     <script src="./js/mustache.min.js"></script>
-    <script src="./js/script.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/weatherUI.js"></script>
+    <script src="./js/weatherApp.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 
 </html>
